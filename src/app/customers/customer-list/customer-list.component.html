@@ -1,0 +1,35 @@
+<div class="container">
+    <div class="flex row">
+        <div class="col-lg">
+            <input class="form-control" placeholder="Search by name">
+        </div>
+        <div class="col-sm">
+            <a [routerLink]="['new']" class="btn btn-primary">
+                Create Customer
+            </a>
+        </div>
+    </div>
+    <div>
+        <h2>Customers List</h2>
+        <div class="container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Phone</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="!state.isLoading">
+                    <tr *ngFor="let customer of state.customers">
+                        <td>{{customer.customerName}}</td>
+                        <td>{{customer.phoneNumber}}</td>
+                        <td><button (click)="deleteCustomer(customer.customerId)" class="btn btn-danger" href="#">delete</button><a class="btn" [routerLink]="['/customers/edit/'+customer.customerId]">edit</a></td>
+                    </tr>
+                </tbody>
+                
+            </table>
+            <p *ngIf="state.isLoading">Getting Customers List..</p>
+        </div>
+    </div>
+</div>

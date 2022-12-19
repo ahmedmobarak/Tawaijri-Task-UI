@@ -1,0 +1,39 @@
+<div class="container">
+    <div class="flex row">
+        <div class="col-lg">
+            <input class="form-control" placeholder="Search by name">
+        </div>
+        <div class="col-sm">
+            <a [routerLink]="['new']" class="btn btn-primary">
+                Create Invoice
+            </a>
+        </div>
+    </div>
+    <div>
+        <h2>Invoices List</h2>
+        <div class="container">
+            <table *ngIf="!state.isLoading" class="table">
+                <thead>
+                    <tr>
+                        <th>Customer Id</th>
+                        <th>Invoice Date</th>
+                        <th>Value</th>
+                        <th>State</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="!state.isLoading">
+                    <tr *ngFor="let invoice of state.invoices">
+                        <td>{{invoice.customerId}}</td>
+                        <td>{{invoice.invoiceDate | date}}</td>
+                        <td>{{invoice.value}}</td>
+                        <td>{{invoice.state}}</td>
+                        <td><button (click)="deleteInvoice(invoice.invoiceId)" class="btn btn-danger" href="#">delete</button><a class="btn" [routerLink]="['/invoices/edit/'+invoice.invoiceId]">edit</a></td>
+                    </tr>
+                </tbody>
+                
+            </table>
+            <p *ngIf="state.isLoading">Getting Invoices List..</p>
+        </div>
+    </div>
+</div>

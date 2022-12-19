@@ -1,0 +1,21 @@
+<div class="container">
+    <form style="gap: 20px; margin-bottom: 20px" [formGroup]="invoiceFormGroup" class="form-group row">
+        <div class="row">
+            <select class="col-sm form-control" formControlName="customerId">
+                <option [value]="customer.customerId" *ngFor="let customer of state.customers">{{customer.customerName}}</option>
+            </select>
+            <select class="col-sm form-control" formControlName="state">
+                <option [value]="state.id" *ngFor="let state of invoiceStates">{{state.title}}</option>
+            </select>
+        </div>
+        <div class="row">
+            <input placeholder="Value" type="number" formControlName="value" id="" class="col-sm form-control">
+        </div>
+    </form>
+    <button *ngIf="!state.isEditting" (click)="addInvoice()" class="btn btn-success">
+        Add Invoice
+    </button>
+    <button *ngIf="state.isEditting" (click)="editInvoice()" class="btn btn-success">
+        Edit Invoice
+    </button>
+</div>
