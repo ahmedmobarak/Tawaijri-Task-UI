@@ -12,6 +12,7 @@ export class CustomerListComponent implements OnInit {
   state = {
     isLoading: true,
     customerDeleted: false,
+    term: '' as string,
     customers: [] as Customer[],
   }
 
@@ -36,5 +37,10 @@ export class CustomerListComponent implements OnInit {
       this.state.customerDeleted = true;
       this.ngOnInit();
     })
+  }
+
+  search(){
+    let filteredList = this.state.customers.filter(customer => customer.customerName.toLowerCase().includes(this.state.term.toLowerCase()));
+    return filteredList;
   }
 }

@@ -1,0 +1,13 @@
+<div *ngIf="!state.isLoading" class="row">
+    <div class="col-sm">
+        <h2>Customers: </h2>
+        <h3>{{state.customers}}</h3>
+    </div>
+    <div class="col-sm">
+        <h2>Invoices: </h2>
+        <h3>{{state.invoices}}</h3>
+    </div>
+</div>
+<div *ngIf="state.isLoading" class="container">
+    <h3>Getting Info..</h3>
+</div>

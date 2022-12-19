@@ -4,9 +4,14 @@ import { CustomerFormComponent } from './customers/customer-form/customer-form.c
 import { CustomerListComponent } from './customers/customer-list/customer-list.component';
 import { InvoiceFormComponent } from './invoices/invoice-form/invoice-form.component';
 import { InvoiceListComponent } from './invoices/invoice-list/invoice-list.component';
+import { HomeComponent } from './shared/components/home/home.component';
 import { AppRoutes } from './shared/models/appRoutes';
 
 const routes: Routes = [
+  {
+    path: '',
+    component: HomeComponent
+  },
   {
     path: AppRoutes.customer.main,
     children: [

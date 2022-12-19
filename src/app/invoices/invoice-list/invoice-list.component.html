@@ -1,7 +1,7 @@
 <div class="container">
     <div class="flex row">
         <div class="col-lg">
-            <input class="form-control" placeholder="Search by name">
+            <input type="number" [(ngModel)]="state.term" (input)="search()" class="form-control" placeholder="Search by name">
         </div>
         <div class="col-sm">
             <a [routerLink]="['new']" class="btn btn-primary">
@@ -23,7 +23,7 @@
                     </tr>
                 </thead>
                 <tbody *ngIf="!state.isLoading">
-                    <tr *ngFor="let invoice of state.invoices">
+                    <tr *ngFor="let invoice of search()">
                         <td>{{invoice.customerId}}</td>
                         <td>{{invoice.invoiceDate | date}}</td>
                         <td>{{invoice.value}}</td>

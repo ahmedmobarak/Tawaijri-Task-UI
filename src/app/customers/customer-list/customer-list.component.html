@@ -1,7 +1,7 @@
 <div class="container">
     <div class="flex row">
         <div class="col-lg">
-            <input class="form-control" placeholder="Search by name">
+            <input type="text" [(ngModel)]="state.term" (input)="search()" class="form-control" placeholder="Search by name">
         </div>
         <div class="col-sm">
             <a [routerLink]="['new']" class="btn btn-primary">
@@ -21,7 +21,7 @@
                     </tr>
                 </thead>
                 <tbody *ngIf="!state.isLoading">
-                    <tr *ngFor="let customer of state.customers">
+                    <tr *ngFor="let customer of search()">
                         <td>{{customer.customerName}}</td>
                         <td>{{customer.phoneNumber}}</td>
                         <td><button (click)="deleteCustomer(customer.customerId)" class="btn btn-danger" href="#">delete</button><a class="btn" [routerLink]="['/customers/edit/'+customer.customerId]">edit</a></td>

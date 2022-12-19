@@ -11,7 +11,8 @@ export class InvoiceListComponent implements OnInit {
   state = {
     isLoading: true,
     invoiceDeleted: false,
-    invoices: [] as Invoice[]
+    invoices: [] as Invoice[],
+    term: undefined
   }
   constructor(private invoiceService: InvoiceService) {
     
@@ -35,4 +36,11 @@ export class InvoiceListComponent implements OnInit {
       this.ngOnInit();
     })
   }
+
+  search(){
+    console.log(this.state.term)
+    let filteredList = this.state.invoices.filter(invoice => (this.state.term !== undefined && this.state.term !== null ) ? invoice.customerId == this.state.term : invoice );
+    return filteredList;
+  }
+
 }
