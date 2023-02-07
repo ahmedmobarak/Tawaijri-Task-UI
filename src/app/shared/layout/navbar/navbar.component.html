@@ -1,7 +1,14 @@
-<nav style="background-color: rgb(168, 168, 168); margin-bottom: 20px; padding: 10px; " class="navbar navbar-dark">
-    <div class="row">
-        <a class="col-sm" [routerLink]="['/']">Home</a>
-        <a class="col-sm" [routerLink]="['/customers']">Customers</a>
-        <a class="col-sm" [routerLink]="['/invoices']">Invoices</a>
-    </div>
+<nav class="hidden bg-light">
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+          <a [ngClass]="{ active : state.currentLocation  == '' }" class="nav-link" [routerLink]="['/']">Home</a>
+    
+        </li>
+        <li class="nav-item">
+          <a [ngClass]="{ active : state.currentLocation  == 'customers' }" class="nav-link" [routerLink]="['/customers']">Customers</a>
+    
+        </li>
+        <li class="nav-item">
+          <a [ngClass]="{ active : state.currentLocation  == 'invoices' }" class="nav-link" [routerLink]="['/invoices']">Invoices</a>
+      </ul>
 </nav>

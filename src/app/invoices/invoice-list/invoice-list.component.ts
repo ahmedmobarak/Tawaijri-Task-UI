@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Invoice } from 'src/app/shared/interfaces/invoice';
+import { InvoiceStates } from 'src/app/shared/models/invoicesStates';
 import { InvoiceService } from 'src/app/shared/services/invoice.service';
 
 @Component({
@@ -12,14 +14,20 @@ export class InvoiceListComponent implements OnInit {
     isLoading: true,
     invoiceDeleted: false,
     invoices: [] as Invoice[],
+    invoicesStates: InvoiceStates,
     term: undefined
   }
-  constructor(private invoiceService: InvoiceService) {
+  constructor(private invoiceService: InvoiceService, private router: Router) {
     
   }
 
   ngOnInit():void{
     this.getInvoices();
+  }
+
+  getInvoiceStateText(id: number):string{
+    let state = this.state.invoicesStates.filter(s => s.id == id)[0].title;
+    return state;
   }
 
   getInvoices(){
@@ -37,8 +45,11 @@ export class InvoiceListComponent implements OnInit {
     })
   }
 
+  openDetails(id: any){
+    this.router.navigate([`invoices/${id}`]);
+  }
+
   search(){
-    console.log(this.state.term)
     let filteredList = this.state.invoices.filter(invoice => (this.state.term !== undefined && this.state.term !== null ) ? invoice.customerId == this.state.term : invoice );
     return filteredList;
   }

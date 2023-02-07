@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container-fluid">
     <form style="gap: 20px; margin-bottom: 20px" [formGroup]="customerFormGroup" class="form-group row">
         <input placeholder="Customer Name" type="text" formControlName="customerName" id="" class="col-sm form-control">
         <input placeholder="Phone Number" type="text" formControlName="phoneNumber" id="" class="col-sm form-control">
@@ -9,4 +9,7 @@
     <button *ngIf="state.isEditting" (click)="editCustomer()" class="btn btn-success">
         Edit Customer
     </button>
+    <div *ngIf="!(state.hasSubmited && state.isLoading)" class="alert alert-success" role="alert">
+        Customer has been added successfuly
+      </div>
 </div>

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CustomerFormComponent } from './customers/customer-form/customer-form.component';
 import { CustomerListComponent } from './customers/customer-list/customer-list.component';
+import { InvoiceDetailsComponent } from './invoices/invoice-details/invoice-details.component';
 import { InvoiceFormComponent } from './invoices/invoice-form/invoice-form.component';
 import { InvoiceListComponent } from './invoices/invoice-list/invoice-list.component';
 import { HomeComponent } from './shared/components/home/home.component';
@@ -35,6 +36,10 @@ const routes: Routes = [
      {
         path: AppRoutes.invoice.list,
         component: InvoiceListComponent,
+     },
+     {
+      path: AppRoutes.invoice.details,
+      component: InvoiceDetailsComponent,
      },
      {
         path: AppRoutes.invoice.new,

@@ -12,6 +12,7 @@ export class CustomerFormComponent implements OnInit {
 
   state = {
     isLoading: true,
+    hasSubmited: true,
     isEditting: false,
     savedCustomer: false
   }
@@ -48,9 +49,16 @@ export class CustomerFormComponent implements OnInit {
 
   addCustomer(){
     this.customerService.addCustomer(this.customerFormGroup.value).subscribe((res) => {
+      this.state.isLoading = false;
+      this.state.hasSubmited = false;
       this.state.savedCustomer = true
     },
-    (err) => console.log(err))
+    (err) => {
+      this.state.isLoading = false;
+      this.state.hasSubmited = false;
+      console.log(err)
+    }
+    )
   }
 
   editCustomer(){

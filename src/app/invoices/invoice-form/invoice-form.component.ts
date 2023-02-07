@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { InvoiceStates } from 'src/app/shared/models/invoicesStates';
 import { CustomerService } from 'src/app/shared/services/customer.service';
 import { InvoiceService } from 'src/app/shared/services/invoice.service';
 
@@ -18,24 +19,7 @@ export class InvoiceFormComponent implements OnInit {
     customers: [] as any
   }
 
-  invoiceStates = [
-    {
-      id: 1,
-      title: 'Draft'
-    },
-    {
-      id: 2,
-      title: 'Issued'
-    },
-    {
-      id: 3,
-      title: 'Paid'
-    },
-    {
-      id: 4,
-      title: 'Cancelled'
-    }
-  ]
+  invoiceStates = InvoiceStates
 
   invoiceFormGroup: any;
 
@@ -50,6 +34,10 @@ export class InvoiceFormComponent implements OnInit {
   }
   ngOnInit(): void {
     this.initForm();
+    this.patchValues();
+  }
+
+  patchValues(){
     if(this.router.url.includes('edit')){
       this.state.isEditting = true
       this.invoiceService.findInvoice(this.activatedRoute.snapshot.paramMap.get('id')).subscribe(res => {
@@ -91,6 +79,7 @@ export class InvoiceFormComponent implements OnInit {
   }
 
   editInvoice(){
+    this.invoiceFormGroup.patchValue({state: parseInt(this.invoiceFormGroup.controls.state.value)});
     let invoice = this.invoiceFormGroup.value;
     invoice.invoiceId = this.activatedRoute.snapshot.paramMap.get('id');
     this.invoiceService.editInvoice(invoice.invoiceId, invoice).subscribe((res) => {
