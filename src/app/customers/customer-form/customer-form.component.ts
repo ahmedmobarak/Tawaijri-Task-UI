@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Customer } from 'src/app/shared/interfaces/customer';
 import { CustomerService } from 'src/app/shared/services/customer.service';
 
 @Component({
@@ -17,7 +18,20 @@ export class CustomerFormComponent implements OnInit {
     savedCustomer: false
   }
 
-  customerFormGroup: any;
+  customerFormGroup = this.formBuilder.group({
+    customerName: new FormControl<string | null>("", {
+      validators: [Validators.required, Validators.email],
+      nonNullable: true
+    }),
+    customerId: new FormControl<number | null>(null, {
+      validators: [Validators.required, Validators.max(236532323323)],
+      nonNullable: true
+    }),
+    phoneNumber: new FormControl<number | null>(null, {
+      validators: [Validators.required, Validators.email],
+      nonNullable: true
+    })
+  });
 
   constructor(
     private router: Router,
@@ -28,23 +42,21 @@ export class CustomerFormComponent implements OnInit {
     
   }
   ngOnInit(): void {
-    this.initForm();
+    this.checkForEditPage();
+  }
+
+  checkForEditPage(){
     if(this.router.url.includes('edit')){
+      let id = this.activatedRoute.snapshot.paramMap.get('id') as string;
       this.state.isEditting = true
-      this.customerService.findCustomer(this.activatedRoute.snapshot.paramMap.get('id')).subscribe(res => {
+      this.customerService.findCustomer(id).subscribe(res => {
         this.customerFormGroup.patchValue({
+          customerId: parseInt(id),
           customerName: res.customerName,
           phoneNumber: res.phoneNumber
         })
       })
     }  else this.state.isEditting = false;
-  }
-
-  initForm(){
-    this.customerFormGroup = this.formBuilder.group({
-      customerName: [null, Validators.required],
-      phoneNumber: [null, Validators.required]
-    });
   }
 
   addCustomer(){
@@ -63,8 +75,6 @@ export class CustomerFormComponent implements OnInit {
 
   editCustomer(){
     let customer = this.customerFormGroup.value;
-    let id = this.activatedRoute.snapshot.paramMap.get('id') as string;
-    customer.customerId = parseInt(id);
     this.customerService.editCustomer(customer.customerId, customer).subscribe((res) => {
       this.state.savedCustomer = true
     },
