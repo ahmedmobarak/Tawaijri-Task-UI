@@ -38,13 +38,15 @@ const routes: Routes = [
         component: InvoiceListComponent,
      },
      {
-      path: AppRoutes.invoice.details,
-      component: InvoiceDetailsComponent,
-     },
-     {
         path: AppRoutes.invoice.new,
         component: InvoiceFormComponent,
-     },
+        pathMatch: 'full'
+      },
+      {
+         path: AppRoutes.invoice.details,
+         component: InvoiceDetailsComponent,
+         pathMatch: 'full'
+      },
      {
       path: AppRoutes.invoice.edit,
       component: InvoiceFormComponent,

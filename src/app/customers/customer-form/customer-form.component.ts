@@ -47,16 +47,20 @@ export class CustomerFormComponent implements OnInit {
 
   checkForEditPage(){
     if(this.router.url.includes('edit')){
-      let id = this.activatedRoute.snapshot.paramMap.get('id') as string;
-      this.state.isEditting = true
-      this.customerService.findCustomer(id).subscribe(res => {
-        this.customerFormGroup.patchValue({
-          customerId: parseInt(id),
-          customerName: res.customerName,
-          phoneNumber: res.phoneNumber
-        })
-      })
+      this.state.isEditting = true;
+      this.patchValues();
     }  else this.state.isEditting = false;
+  }
+
+  patchValues() {
+    let id = this.activatedRoute.snapshot.paramMap.get('id') as string;
+    this.customerService.findCustomer(id).subscribe(res => {
+      this.customerFormGroup.patchValue({
+        customerId: parseInt(id),
+        customerName: res.customerName,
+        phoneNumber: res.phoneNumber
+      });
+    });
   }
 
   addCustomer(){

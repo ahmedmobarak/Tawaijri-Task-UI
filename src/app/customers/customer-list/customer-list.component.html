@@ -17,6 +17,7 @@
                     <tr>
                         <th>Name</th>
                         <th>Phone</th>
+                        <th>Invoices</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -24,6 +25,7 @@
                     <tr *ngFor="let customer of search()">
                         <td>{{customer.customerName}}</td>
                         <td>{{customer.phoneNumber}}</td>
+                        <td>{{customer.invoicesCount}}</td>
                         <td class="d-flex gap-2"><button (click)="deleteCustomer(customer.customerId)" class="btn btn-danger" href="#">delete</button><a class="btn btn-info" [routerLink]="['/customers/edit/'+customer.customerId]">edit</a></td>
                     </tr>
                 </tbody>

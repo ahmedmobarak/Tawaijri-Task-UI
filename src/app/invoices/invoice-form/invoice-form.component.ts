@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Invoice } from 'src/app/shared/interfaces/invoice';
 import { InvoiceStates } from 'src/app/shared/models/invoicesStates';
 import { CustomerService } from 'src/app/shared/services/customer.service';
 import { InvoiceService } from 'src/app/shared/services/invoice.service';
@@ -21,7 +22,14 @@ export class InvoiceFormComponent implements OnInit {
 
   invoiceStates = InvoiceStates
 
-  invoiceFormGroup: any;
+  invoiceFormGroup = this.formBuilder.group({
+    invoiceId: [Number as any, Validators.required],
+    customerId: [Number, Validators.required],
+    value: [Number, Validators.required],
+    state: [1 as number, Validators.required],
+    invoiceDate: [Date, Validators.required]
+
+  });
 
   constructor(
     private router: Router,
@@ -33,7 +41,7 @@ export class InvoiceFormComponent implements OnInit {
     
   }
   ngOnInit(): void {
-    this.initForm();
+    this.getCustomers();
     this.patchValues();
   }
 
@@ -42,6 +50,7 @@ export class InvoiceFormComponent implements OnInit {
       this.state.isEditting = true
       this.invoiceService.findInvoice(this.activatedRoute.snapshot.paramMap.get('id')).subscribe(res => {
         this.invoiceFormGroup.patchValue({
+          invoiceId: res.invoiceId,
           customerId: res.customerId,
           value: res.value,
           invoiceDate: res.invoiceDate,
@@ -51,26 +60,16 @@ export class InvoiceFormComponent implements OnInit {
     }  else this.state.isEditting = false;
   }
 
-  initForm(){
-    this.getCustomers();
-    this.invoiceFormGroup = this.formBuilder.group({
-      customerId: [null, Validators.required],
-      value: [null, Validators.required],
-      state: [1, Validators.required]
-    });
-  }
-
   getCustomers(){
     this.customerService.getCustomers().subscribe(res=> {
       this.state.isLoading = false;
       this.state.customers = res;
-      console.log(this.state.customers);
     });
   }
 
   addInvoice(){
     // convert State type to int
-    this.invoiceFormGroup.patchValue({state: parseInt(this.invoiceFormGroup.controls.state.value)});
+    this.invoiceFormGroup.patchValue({state: parseInt(this.invoiceFormGroup.controls.state.value!.toString())});
     
     this.invoiceService.addInvoice(this.invoiceFormGroup.value).subscribe((res) => {
       this.state.savedInvoice = true
@@ -79,7 +78,7 @@ export class InvoiceFormComponent implements OnInit {
   }
 
   editInvoice(){
-    this.invoiceFormGroup.patchValue({state: parseInt(this.invoiceFormGroup.controls.state.value)});
+    this.invoiceFormGroup.patchValue({state: parseInt(this.invoiceFormGroup.controls.state.value!.toString())});
     let invoice = this.invoiceFormGroup.value;
     invoice.invoiceId = this.activatedRoute.snapshot.paramMap.get('id');
     this.invoiceService.editInvoice(invoice.invoiceId, invoice).subscribe((res) => {

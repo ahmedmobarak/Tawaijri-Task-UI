@@ -15,21 +15,21 @@
             <table *ngIf="!state.isLoading" class="table">
                 <thead>
                     <tr>
-                        <th>Customer Id</th>
+                        <th>Invoice Id</th>
                         <th>Customer Name</th>
-                        <th>Invoice Date</th>
                         <th>Value</th>
                         <th>State</th>
+                        <th>Invoice Date</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody *ngIf="!state.isLoading">
                     <tr (dblclick)="openDetails(invoice.invoiceId)" *ngFor="let invoice of search()">
-                        <td>{{invoice.customerId}}</td>
+                        <td>{{invoice.invoiceId}}</td>
                         <td>{{invoice.customer?.customerName}}</td>
-                        <td>{{invoice.invoiceDate | date}}</td>
                         <td>{{invoice.value}}</td>
                         <td>{{getInvoiceStateText(invoice.state)}}</td>
+                        <td>{{invoice.invoiceDate | date}}</td>
                         <td class="d-flex gap-2"><button (click)="deleteInvoice(invoice.invoiceId)" class="btn btn-danger" href="#">delete</button><a class="btn btn-info" [routerLink]="['/invoices/edit/'+invoice.invoiceId]">edit</a></td>
                     </tr>
                 </tbody>
